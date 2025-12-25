@@ -1,14 +1,25 @@
 class Solution {
+    static int sum;
     public int findTargetSumWays(int[] nums, int target) {
-        return findway(nums,0,target);
+        //i goes to 0 to nums.length
+        //target goes to -sum to sum
+        for(int val:nums){
+            sum+=val;
+        }
+        int dp[][]=new int[nums.length][2*sum+1];
+        for(int x[]:dp){
+            Arrays.fill(x,-1);
+        }
+        return findway(nums,0,0,target,dp);
     }
-    public int findway(int[]arr,int idx,int target){
+    public int findway(int[]arr,int idx,int res,int target,int dp[][]){
         if(idx==arr.length){
-            if(target==0)return 1;
+            if(res==target)return 1;
             else return 0;
         }
-        int add=findway(arr,idx+1,target-arr[idx]);
-        int sub=findway(arr,idx+1,target+arr[idx]);
+        if(dp[idx][res+sum]!=-1)return dp[idx][res+sum];
+        int add=findway(arr,idx+1,res+arr[idx],target,dp);
+        int sub=findway(arr,idx+1,res-arr[idx],target,dp);
         return add+sub;
     }
 }
