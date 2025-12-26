@@ -1,24 +1,35 @@
 class Solution {
-    public int longestPalindromeSubseq(String s) {
-        int n=s.length();
-        if(n<=1)return n;
-        int dp[][]=new int[n][n];
-        for(int[]row:dp)Arrays.fill(row,-1);
-
-       int ans= helper(0,s.length()-1,s,dp);
-       return ans;
-        
-    }
-    public int helper(int i,int j,String s,int dp[][]){
-        if(i>j)return 0;
-        if(i==j)return 1;
+    static int [][]dp;
+    public int lcs(int i,int j,StringBuilder a,StringBuilder b){
+        if(i<0 || j<0)return 0;
         if(dp[i][j]!=-1)return dp[i][j];
-        if(s.charAt(i)==s.charAt(j)){
-           return dp[i][j]= 2+helper(i+1,j-1,s,dp);
+        if(a.charAt(i)==b.charAt(j)){
+            return dp[i][j]=1+lcs(i-1,j-1,a,b);
         }
         else{
-            return dp[i][j]= Math.max(helper(i+1,j,s,dp),helper(i,j-1,s,dp));
+            return dp[i][j]=Math.max(lcs(i-1,j,a,b),lcs(i,j-1,a,b));
         }
-    }
-}
 
+    }
+     public int longestCommonSubsequence(String text1, String text2) {
+       StringBuilder a=new StringBuilder(text1);
+       StringBuilder b=new StringBuilder(text2);
+       int m=a.length();
+       int n=b.length();
+       //i goes to m-1 to 0
+       //j goes to n-1 to 0
+       dp=new int[m][n];
+       for(int x[]:dp)Arrays.fill(x,-1);
+       return lcs(m-1,n-1,a,b);
+    }
+    public String reverse(String s){
+        StringBuilder str=new StringBuilder(s);
+        str.reverse();
+        s=str.toString();
+        return s;
+    }
+    public int longestPalindromeSubseq(String s) {
+       return longestCommonSubsequence(s, reverse(s));
+    }
+
+}
