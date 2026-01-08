@@ -1,25 +1,18 @@
+//we find the inorder treversal of binary tree then check
+//if a list is in sorted order then it is Binary Search tree else not .
 class Solution {
-    public boolean left(TreeNode root,int value){
-        if(root==null)return true;
-        if(root.val>=value)return false;
-        boolean l1=left(root.left,value);
-        boolean l2=left(root.right,value);
-        if(l1==true && l2==true)return true;
-        else return false;
-    }
-    public boolean right(TreeNode root,int value){
-        if(root==null)return true;
-        if(root.val<=value)return false;
-        boolean l1=right(root.left,value);
-        boolean l2=right(root.right,value);
-        if(l1==true && l2==true)return true;
-        else return false;
+    public void inorder(TreeNode root,List<Integer> list){
+        if(root==null)return;
+        inorder(root.left,list);
+        list.add(root.val);
+        inorder(root.right,list);
     }
     public boolean isValidBST(TreeNode root) {
-        if(root==null)return true;
-        boolean l1=left(root.left,root.val);
-        boolean l2=right(root.right,root.val);
-        if(l1==false || l2==false)return false;
-        return isValidBST(root.left) && isValidBST(root.right);
+        List<Integer> list=new ArrayList<>();
+        inorder(root,list);
+        for(int i=1;i<list.size();i++){
+            if(list.get(i)<=list.get(i-1))return false;
+        }
+        return true;
     }
 }
