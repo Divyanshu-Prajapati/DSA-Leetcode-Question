@@ -1,17 +1,21 @@
+//BY Recursion -->
 class Solution {
-    public void preorder(TreeNode root,List<TreeNode> list){
+    public void preorder(TreeNode root){
         if(root==null)return;
-        list.add(root);
-        preorder(root.left,list);
-        preorder(root.right,list);
+        if(root.left!=null){
+            TreeNode pred=root.left;
+            while(pred.right!=null){
+            pred=pred.right;
+        }
+        pred.right=root.right;
+        root.right=root.left;
+        root.left=null;
+        }
+       
+        
+        preorder(root.right);
     }
     public void flatten(TreeNode root) {
-        List<TreeNode> list=new ArrayList<>();
-        preorder(root,list);
-        TreeNode curr=root;
-        for(int i=0;i<list.size();i++){
-           if(i!=list.size()-1) list.get(i).right=list.get(i+1);
-           list.get(i).left=null;
-        }
+        preorder(root);
     }
 }
