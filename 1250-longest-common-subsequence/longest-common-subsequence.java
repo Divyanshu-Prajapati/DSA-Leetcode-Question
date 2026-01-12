@@ -1,19 +1,20 @@
 class Solution {
-    public int longestCommonSubsequence(String a, String b) {
-       int m=a.length();
-       int n=b.length();
-       //i goes to m-1 to 0 //j goes to n-1 to 0
-      int[][] dp=new int[m][n];
-      for(int i=0;i<dp.length;i++){
-        for(int j=0;j<dp[0].length;j++){
-            int p=(i>=1 && j>=1)? dp[i-1][j-1]:0;
-            int q=(i>=1)?dp[i-1][j]:0;
-            int r=(j>=1)?dp[i][j-1]:0;
-            if(a.charAt(i)==b.charAt(j)) dp[i][j]=1+p;
-            else dp[i][j]=Math.max(q,r);
-        
+    public int longestCommonSubsequence(String s1, String s2) {
+        int m=s1.length();
+        int n=s2.length();
+        int[][]dp=new int[m+1][n+1];
+        for(int i=1;i<=m;i++){
+            for(int j=1;j<=n;j++){
+                if(s1.charAt(i-1)==s2.charAt(j-1)){    
+                 dp[i][j]=1 + dp[i-1][j-1];
+               }
+               else{
+                dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+               }
+            }
         }
-      }
-      return dp[m-1][n-1];
+        return dp[m][n];
+        
+        
     }
 }
