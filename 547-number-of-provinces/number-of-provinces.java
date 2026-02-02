@@ -1,31 +1,27 @@
 class Solution {
-    public void bfs(int i ,int[][]arr,boolean[] isvis){
-        int n=arr.length;
-        isvis[i]=true;
+    public int findCircleNum(int[][] adj) {
+        int n=adj.length;
+        int ans=0;
+        boolean[] isvisited=new boolean[n];
+        for(int i=0;i<n;i++){
+            if(!isvisited[i]){
+                ans++;
+                bfs(i,adj,isvisited);
+            }
+        }
+        return ans;
+    }
+    public void bfs(int node,int[][] adj,boolean[]isvisited){
         Queue<Integer> q=new LinkedList<>();
-        q.add(i);
+        q.add(node);
         while(q.size()>0){
-            int front=q.remove();
-            for(int j=0;j<n;j++){
-                if(arr[front][j]==1 && isvis[j]==false){
-                    q.add(j);
-                    isvis[j]=true;
+            int temp=q.remove();
+            for(int i=0;i<adj.length;i++){
+                if(adj[temp][i]==1 && isvisited[i]==false){
+                    q.add(i);
+                    isvisited[i]=true;
                 }
             }
         }
-
-    }
-    public int findCircleNum(int[][] arr) {
-        int n=arr.length;
-        int count=0;
-        boolean isvis[]=new boolean[n];
-        for(int i=0;i<n;i++){
-           if(!isvis[i]){
-            bfs(i,arr,isvis);
-              count++;
-           }
-        }
-        return count;
-
     }
 }
